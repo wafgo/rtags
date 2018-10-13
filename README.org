@@ -189,13 +189,9 @@ sudo port install clang-3.5
   git clone --recursive https://github.com/Andersbakken/rtags.git
   #+END_SRC
 
-  You can also download the sources from here:
-
-  https://andersbakken.github.io/rtags-releases/rtags-2.20.tar.bz2
-
-  or
-
-  https://andersbakken.github.io/rtags-releases/rtags-2.20.tar.gz
+  RTags releases are available for download under the [[https://github.com/Andersbakken/rtags/releases][releases]] page. Releases
+  prior to version 2.21 DO NOT contain the submodules. Versions 2.14 through
+  2.20 can be downloaded from https://github.com/Andersbakken/rtags-releases.
 
 - Building RTags
 
@@ -1248,4 +1244,3 @@ try to do it from now.
   other people as well.
 - Fix a weird edge-case bug when running rdm with --no-realpath and
   re-running without this switch (and vice-verse)
-

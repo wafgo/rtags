@@ -5,32 +5,45 @@
 
 language: cpp
 sudo: required
-
-addons:
-    apt:
-        sources:
-            - ubuntu-toolchain-r-test
-        packages:
-            - g++-4.9
-            - python3-pip
-            - libcppunit-dev
-
 git:
   depth: 3
 
-matrix:
-    include:
-        - os: linux
-          compiler: g++
-          dist: trusty
-          env: T=g++-linux COMPILER_VERSION=-4.9
-        - os: osx
-          compiler: clang
-          env: T=clang-osx
-
 branches:
-    only:
-        - master
-        - develop
+  only:
+    - master
+    - develop
+    - /^v[0-9]+\.[0-9]+$/
 
-script: ./scripts/travis.sh
+
+jobs:
+  include:
+    # - os: linux
+    #   addons:
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #       packages:
+    #         - g++-4.9
+    #         - python3-pip
+    #         - libcppunit-dev
+    #     compiler: g++
+    #     dist: trusty
+    #     env: T=g++-linux COMPILER_VERSION=-4.9
+    #     script: ./scripts/travis.sh
+    # - os: osx
+    #   compiler: clang
+    #   env: T=clang-osx
+    #   script: ./scripts/travis.sh
+    - stage: Release
+      before_deploy: ./scripts/rtags-release.sh
+      script: true
+      deploy:
+        provider: releases
+        skip_cleanup: true
+        api_key:
+          secure: DOlyG6rhNwvBt+AfQPbOR6gjqvYQYU8rEiFB7cjOY+ghDMw8ijcd3akORusrFqhkCbDLxK2/J6VbNLZCErv/mAUOvt+FPm9DsSbrulKRAeS5l1YQoUfokAE5AFaRSHGlshilYrDvDjljpyRLyZJZheQjSTeUbZYJQEEJQpTQhOQ=
+        file:
+          - rtags-${TRAVIS_TAG#v*}.tar.bz2
+          - rtags-${TRAVIS_TAG#v*}.tar.zip
+        on:
+          tags: true
